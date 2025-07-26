@@ -1,7 +1,26 @@
 ---
 
+import '../styles/global.css';
+console.log("hello world");
+const title = "hello astro ";
+const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`, {
+	method: "POST",
+	body: JSON.stringify({
+		query: `
+		query PageQuery {
+			nodeByUri(uri: "/") {
+				... on Page {
+					id
+					blocks
+				}
+			}
+		}
+		`
+	})
+});
+const data = await response.json();
+console.log({data});	
 ---
-<!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
@@ -11,6 +30,6 @@
 		<title>Astro Basics</title>
 	</head>
 	<body>
-		<h1>astro1</h1>
+		<h1 class="bg-amber-700">{title}</h1>
 	</body>
 </html>
