@@ -8,7 +8,7 @@ const response = await fetch(`${import.meta.env.PUBLIC_WPGRAPHQL_URL}`, {
   body: JSON.stringify({
     query: `
 			query PageQuery {
-			cssVariables
+				cssVariables
 				nodeByUri(uri: "/") {
 					... on Page {
 						id
@@ -21,24 +21,25 @@ const response = await fetch(`${import.meta.env.PUBLIC_WPGRAPHQL_URL}`, {
 });
 //mmooje
 const data = await response.json();
+
 const blocks = (data?.data?.nodeByUri?.blocks || []) as Block[];
 console.log(import.meta.env.PUBLIC_WPGRAPHQL_URL);
+
 // console.log(data?.data?.nodeByUri);
 ---
 
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>Astro Basics</title>
-    <style>
+    <!-- <style>
       :root {
         --css--variables--i--here: black;
       }
-    </style>
-
+    </style> -->
     {!!data.cssVariables && <style set:html={`:root{${data.cssVariables}}`} />}
   </head>
   <body>
