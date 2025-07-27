@@ -1,24 +1,29 @@
 ---
 import '../styles/global.css';
+import BlockRenderer from '../components/BlockRenderer.astro';
 console.log("hello world");
 const title = "hello astro ";
-const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`, {
+const response = await fetch(`${import.meta.env.PUBLIC_WPGRAPHQL_URL}`, {
 	method: "POST",
+  headers: { "Content-Type": "application/json" }, // ✅ konieczne dla WPGraphQL
 	body: JSON.stringify({
 		query: `
-		query PageQuery {
-			nodeByUri(uri: "/") {
-				... on Page {
-					id
-					blocks
+			query PageQuery {
+				nodeByUri(uri: "/") {
+					... on Page {
+						id
+						blocks
+					}
 				}
 			}
-		}
 		`
 	})
 });
+//mmooje
 const data = await response.json();
-console.log({data});	
+console.log(data?.data?.nodeByUri);
+const blocks = data?.data?.nodeByUri?.blocks || [];
+console.log(import.meta.env.PUBLIC_WPGRAPHQL_URL);
 ---
 <html lang="en">
 	<head>
@@ -29,6 +34,6 @@ console.log({data});
 		<title>Astro Basics</title>
 	</head>
 	<body>
-		<h1 class="bg-amber-700">{title}</h1>
+		 <BlockRenderer blocks={blocks} />
 	</body>
 </html>
