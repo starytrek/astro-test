@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import CommonHead from "../components/CommonHead.astro";
 import BlockRenderer from "../components/BlockRenderer.astro";
 import type { Block } from "@wp-block-tools/styles";
 const response = await fetch(`${import.meta.env.PUBLIC_WPGRAPHQL_URL}`, {
@@ -8,11 +9,14 @@ const response = await fetch(`${import.meta.env.PUBLIC_WPGRAPHQL_URL}`, {
   body: JSON.stringify({
     query: `
 			query PageQuery {
-				cssVariables
 				nodeByUri(uri: "/") {
 					... on Page {
 						id
 						blocks
+						  seo {
+									metaDesc
+									title
+								}
 					}
 				}
 			}
@@ -21,27 +25,15 @@ const response = await fetch(`${import.meta.env.PUBLIC_WPGRAPHQL_URL}`, {
 });
 //mmooje
 const data = await response.json();
-
 const blocks = (data?.data?.nodeByUri?.blocks || []) as Block[];
-console.log(import.meta.env.PUBLIC_WPGRAPHQL_URL);
-
-// console.log(data?.data?.nodeByUri);
+const seo = data?.data?.nodeByUri?.seo || {};
 ---
 
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Astro Basics</title>
-    <!-- <style>
-      :root {
-        --css--variables--i--here: black;
-      }
-    </style> -->
-    {!!data.cssVariables && <style set:html={`:root{${data.cssVariables}}`} />}
-  </head>
+  <CommonHead
+    title={seo.title || "Default Title"}
+    description={seo.metaDesc || "Default description"}
+  />
   <body>
     <BlockRenderer blocks={blocks} />
   </body>
