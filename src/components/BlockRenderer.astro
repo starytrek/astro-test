@@ -1,11 +1,9 @@
 ---
-// import { Astro } from "astro";
-// import "../styles/global.css";
 import BlockRendererInner from "./BlockRenderer.astro";
 import { getBlockStyling } from "@wp-block-tools/styles";
 import type { Block } from "@wp-block-tools/styles";
 type Props = {
-  blocks: Block[]; // Array of blocks to render
+  blocks: Block[]; 
 };
 const { blocks } = Astro.props;
 console.log("BLOCK FROM BLOCK RENDERER COMPONENT: ", blocks);

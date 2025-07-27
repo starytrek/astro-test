@@ -1,8 +1,10 @@
 ---
+// moj
 import "../styles/global.css";
-import CommonHead from "../components/CommonHead.astro";
 import BlockRenderer from "../components/BlockRenderer.astro";
+
 import type { Block } from "@wp-block-tools/styles";
+import CommonHead from "../components/CommonHead.astro";
 const response = await fetch(`${import.meta.env.PUBLIC_WPGRAPHQL_URL}`, {
   method: "POST",
   headers: { "Content-Type": "application/json" }, // ✅ konieczne dla WPGraphQL
