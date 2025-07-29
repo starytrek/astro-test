@@ -14,6 +14,13 @@ console.log("BLOCK FROM BLOCK RENDERER COMPONENT: ", blocks);
   blocks.map((block) => {
     const { styles, classes } = getBlockStyling(block);
     switch (block.name) {
+      case "core/navigation":
+        return (
+          <Navigation class={classes} style={styles}>
+            <BlockRendererInner blocks={block.innerBlocks || []} />
+          </Navigation>
+        );
+
       case "core/paragraph":
         return (
           <p
