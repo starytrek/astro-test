@@ -1,0 +1,23 @@
+---
+import { joinClasses } from "../utils/joinClasses";
+
+type Props = {
+  classes: string;
+  styles: string;
+  label?: string;
+  url?: string;
+  target?: string;
+};
+
+const { classes, styles, label, url, target } = Astro.props;
+const allClasses = joinClasses(classes, "group", );
+---
+
+<li class={allClasses} style={styles}>
+  <a href={url} target={target}>
+    {label}
+  </a>
+  <ul class="hidden group-hover:block">
+    <slot />
+  </ul>
+</li>
